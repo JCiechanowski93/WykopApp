@@ -11,6 +11,9 @@ state = {
     this.callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
+    this.callWykopAPI()
+      .then(res => this.setState({ profileData: res }))
+      .catch(err => console.log(err));
   }
     // fetching the GET route from the Express server which matches the GET route from server.js
   callBackendAPI = async () => {
@@ -19,8 +22,17 @@ state = {
 
     if (response.status !== 200) {
       throw Error(body.message) 
-    }
-    
+    } 
+    return body;
+  };
+
+  callWykopAPI = async () => {
+    const response = await fetch("https://a2.wykop.pl/Profiles/Index/Szuwar/YNiYyE5TqW/K3lyxwfeMI");
+    const body = await response.json(); 
+    if (response.status !== 200) {
+      throw Error(body.message) 
+    } 
+    console.log(body);
     return body;
   };
 
